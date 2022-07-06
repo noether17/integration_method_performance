@@ -41,12 +41,15 @@ auto df_dx(Complex z) -> Complex
 int main()
 {
     auto euler_integrator = DiffEqIntegrator<Complex, EulerStepper>();
+    auto rk2_integrator   = DiffEqIntegrator<Complex, RK2Stepper>();
     auto rk4_integrator   = DiffEqIntegrator<Complex, RK4Stepper>();
     auto initial_condition = Complex{1.0, 0.0};
     auto euler_result = euler_integrator.solve(initial_condition, df_dx, 0.0, 10.0);
+    auto rk2_result   = rk2_integrator.solve(initial_condition, df_dx, 0.0, 10.0);
     auto rk4_result   = rk4_integrator.solve(initial_condition, df_dx, 0.0, 10.0);
     auto actual       = f(10.0);
     std::cout << "Euler result: " << euler_result << '\n'
+              << "RK2 result: "   << rk2_result   << '\n'
               << "RK4 result: "   << rk4_result   << '\n'
               << "Actual value: " << actual       << '\n';
     return 0;

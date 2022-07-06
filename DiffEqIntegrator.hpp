@@ -23,6 +23,16 @@ struct EulerStepper
 };
 
 template <typename State>
+struct RK2Stepper
+{
+    auto step(State state, State (*derivative)(State), double step_size) -> State
+    {
+        auto k1 = derivative(state)*step_size;
+        return state + derivative(state + 0.5*k1)*step_size;
+    }
+};
+
+template <typename State>
 struct RK4Stepper
 {
     auto step(State state, State (*derivative)(State), double step_size) -> State
