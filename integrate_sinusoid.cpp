@@ -1,4 +1,4 @@
-#include "DiffEqIntegrator.hpp"
+#include "ODEIntegrator.hpp"
 #include <cmath>
 #include <iostream>
 
@@ -33,16 +33,16 @@ auto f(double x) -> Complex
     return Complex{ cos(x), sin(x) };
 }
 
-auto df_dx(Complex z) -> Complex
+auto df_dx(const Complex& z) -> Complex
 {
     return Complex{ -z.imag, z.real };
 }
 
 int main()
 {
-    auto euler_integrator = DiffEqIntegrator<Complex, EulerStepper>();
-    auto rk2_integrator   = DiffEqIntegrator<Complex, RK2Stepper>();
-    auto rk4_integrator   = DiffEqIntegrator<Complex, RK4Stepper>();
+    auto euler_integrator = ODEIntegrator<Complex, EulerStepper>{};
+    auto rk2_integrator   = ODEIntegrator<Complex, RK2Stepper>{};
+    auto rk4_integrator   = ODEIntegrator<Complex, RK4Stepper>{};
     auto initial_condition = Complex{1.0, 0.0};
     auto euler_result = euler_integrator.solve(initial_condition, df_dx, 0.0, 10.0);
     auto rk2_result   = rk2_integrator.solve(initial_condition, df_dx, 0.0, 10.0);
