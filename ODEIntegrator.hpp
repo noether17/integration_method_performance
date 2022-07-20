@@ -4,18 +4,21 @@ class ODEIntegrator : private Stepper<State>
     public:
     auto solve(State state, State (*derivative)(const State&), double start, double end) -> State
     {
-        for (auto current = start; current < end; current += step_size)
+        auto current = start;
+        for (auto i_step; i_step < max_steps; ++i_step)
         {
             if ((current + step_size - end)*(end - start) > 0.0) // if step overshoots
             {
                 step_size = end - current;
             }
+            // take the step
             state = this->step(state, derivative, step_size);
         }
         return state;
     }
     private:
     double step_size{1.0};
+    int    max_steps{1000};
 };
 
 template <typename State>
